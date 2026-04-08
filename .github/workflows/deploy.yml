@@ -1,0 +1,38 @@
+name: Laravel CI/CD
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  test-and-migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2' # Sesuaikan dengan versi PHP yang Anda gunakan
+        extensions: mbstring, dom, fileinfo, sqlite3, pdo_sqlite
+        coverage: none
+
+    - name: Deploy to Server via SSH
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT }} # Biasanya 22
+        script: |
+          cd /var/www/html/internalapi
+          git pull origin main
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+          php artisan migrate --force
+          php artisan optimize:clear
+          # php artisan queue:restart # Uncomment jika Anda menggunakan queue worker

@@ -10,6 +10,7 @@ use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\SpecsheetController;
 use App\Http\Controllers\StockMovementController;
 use App\Http\Controllers\WasjangController;
+use App\Http\Controllers\IncidentReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,8 @@ Route::post('wasjangberat', [WasjangController::class, 'saveHeavyWasjang']);
 Route::get('wasjangberat', [WasjangController::class, 'indexWasjangBerat']);
 Route::post('temuanQC', [WasjangController::class, 'storeQC']);
 Route::get('temuanQC', [WasjangController::class, 'indexQC']);
+
+Route::post('incidentreport', [IncidentReportController::class, 'create']);
 
 Route::resource('notifhrd', NotifhrdController::class);
 
