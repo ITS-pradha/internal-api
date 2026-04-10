@@ -85,6 +85,8 @@ Route::post('temuanQC', [WasjangController::class, 'storeQC']);
 Route::get('temuanQC', [WasjangController::class, 'indexQC']);
 
 Route::post('incidentreport', [IncidentReportController::class, 'create']);
+Route::get('notif-incident-report', [IncidentReportController::class, 'notifIncidentReport']);
+Route::put('update-incident-report-status/{id}', [IncidentReportController::class, 'updateStatus']);
 
 Route::resource('notifhrd', NotifhrdController::class);
 

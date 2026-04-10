@@ -14,13 +14,6 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2' # Sesuaikan dengan versi PHP yang Anda gunakan
-        extensions: mbstring, dom, fileinfo, sqlite3, pdo_sqlite
-        coverage: none
-
     - name: Deploy to Server via SSH
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: appleboy/ssh-action@v1.0.3

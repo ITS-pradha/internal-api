@@ -7,6 +7,22 @@ use App\Models\IncidentReport;
 
 class IncidentReportController extends Controller
 {
+    public function notifIncidentReport()
+    {
+        $incidentReports = IncidentReport::where('status', '-')->get();
+
+        return response()->json($incidentReports);
+    }
+
+    public function updateStatus($id)
+    {
+        $incidentReport = IncidentReport::findOrFail($id);
+        $incidentReport->status = 'WA Sent';
+        $incidentReport->save();
+
+        return response()->json($incidentReport);
+    }
+
     public function create(Request $request)
     {
         $data = $request->validate([
